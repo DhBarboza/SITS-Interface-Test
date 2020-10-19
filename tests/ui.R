@@ -34,16 +34,34 @@ shinyUI(fluidPage(
                 
                 ## Define your options and organize in sectors separated by each type of tool:
                 menuItem("Quality Control Samples", tabName = "quality", icon = icon("chart-bar")),
-                menuItem("ST-analysis", tabName = "analysis", icon = icon("analytics")),
-
+                menuItem("ST-analysis", tabName = "analysis", icon = icon("analytics"))
                              
             )## End sidebarMenu!
                          
         ),## End dashboardSidebar!
         
-    ## Layout to Main Panel:
+    ## Layout to Main Panel / Body content:
         dashboardBody(
-            
+            tabItems(
+                # First tab content
+                ## Quality Control Samples:
+                tabItem(tabName = "quality",
+                    ## Boxes need to put in a row or column
+                    fluidRow(
+                        box(title = "Input Parameters",
+                            
+                            fileInput("chooseFile", h3("Chosse File:")),
+                            
+                            numericInput("gridX", h3("Grid X"), value = 1)
+                        )## End-box
+                    )## End-fluidRow
+                ),## End-tabItem-1
+
+                
+                
+            )## End-tabItems
+
+  
         )## End dashboardBody
         
         
