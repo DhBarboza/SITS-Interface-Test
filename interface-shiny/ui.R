@@ -9,7 +9,7 @@ library(shinyBS)
 #  LOAD UI #
 ############
 
-shinyUI(fluidPage(
+shinyUI(
   
   ## load custom styles:
   ##includeCSS("www/style.css")
@@ -29,24 +29,41 @@ shinyUI(fluidPage(
     
     ##<!-- SIDEBAR -->
     dashboardSidebar(width = 300,
+                     
                      sidebarMenu(
-                       menuItem("Quality Control Samples", tabName = "quality", icon = icon("chart-bar")),
+                       
+                       menuItem("Quality Control Samples", icon = icon("chart-bar"),
+                                
+                                fileInput("File", "Choose File"),
+                                
+                                menuSubItem("Assess Quality",
+                                            tabName = "quality",
+                                            icon = icon("line-chart")
+                                ),##End-menuSubItem-Assess-Quality
+                                
+                                menuSubItem("Data Table",
+                                            tabName = "dataTable",
+                                            icon = icon("table")
+                                )##End-menuSubItem-Data-Table
+                                
+                       ),##End-menuItem-Quality-control-samples
+                       
                        menuItem("ST-Analysis", tabName = "analysis", icon = icon("th"))
+                       
                      )##End-sidebarMenu
+                     
     ),##End-dashboardSidebar
     
     ## <!-- BODY -->
     dashboardBody(
       tabItems(
-        # Tab-01:
+        # Tab-01-Quality:
         tabItem(tabName = "quality",
                 fluidRow(
                   ## Input Parameters Box
                   # 01
-                  box(width = 3,
-                      title = h2("Input Parameters"),
-                      
-                      fileInput("File", h3("Choose File")),
+                  box(width = 4,
+                      title = h3("Input Parameters"),
                       
                       numericInput("gridX", "Grid-X:", value = 1),
                       
@@ -65,7 +82,7 @@ shinyUI(fluidPage(
                   
                   ## Output SOM Grid
                   # 02:
-                  box(width = 9,
+                  box(width = 8,
                       title = h2("SOM Grid"),
                       
                       selectInput("vegetationIndex",
@@ -91,7 +108,53 @@ shinyUI(fluidPage(
                   ),##End-Box
                 ),##End-fluidRow-Cluster
                 
-        ),##End-tabItem-01
+        ),##End-tabItem-01-Quality
+        
+        ##Tab-Item-DataTable
+        tabItem(tabName = "dataTable",
+                
+                fluidRow(
+                  
+                  box(
+                    title = h2("Define the Sample Quality"),
+                    
+                    numericInput("conditional", "Conditional", value = 50),
+                    
+                    numericInput("posterior", "Posterior", value = 50),
+                  ),##End-Box
+                  
+                  box(
+                    title = h2("Summary"),
+                    
+                    helpText("X% samples will be kept"),
+                    
+                    helpText("Y% samples will be removed"),
+                    
+                    helpText("Z% samples must be analyzed"),
+                  ),##End-Box
+                ),##End-fluidRow-Configs-Sample-Quality
+                
+                fluidRow(
+                  
+                  column(2, actionButton("inputSamples", "Input Samples")),
+                  
+                  column(2, actionButton("samplesStatus", "Samples Status")),
+                  
+                  column(2, actionButton("subclasses", "Subclasses")),
+                  
+                  column(2, actionButton("outputSamples", "Output Samples")),
+                  
+                ),##End-fluidRow-Visualization
+                
+                fluidRow(
+                  
+                  box(
+                    width = 15,
+                    title = h3("Output"),
+                  ),#End-Box
+                  
+                ),##End-fluidRow-Output
+        ),##End-tabItem-DataTable
         
         # Tab-02:
         tabItem(tabName = "analysis",
@@ -101,5 +164,5 @@ shinyUI(fluidPage(
     )##End-dashboardBody
   )##End-dashboardPage
   
-))## ShinyUI & FluidPage
+)## ShinyUI
 
