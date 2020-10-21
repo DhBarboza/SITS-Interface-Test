@@ -48,7 +48,24 @@ shinyUI(
                                 
                        ),##End-menuItem-Quality-control-samples
                        
-                       menuItem("ST-Analysis", tabName = "analysis", icon = icon("th"))
+                       menuItem("ST-Analysis", icon = icon("th"),
+                                
+                                menuSubItem("Analytic Simple",
+                                            
+                                            tabName = "analyticSimples",
+                                            
+                                            icon = icon("simple")
+                                ),##End-menuSubItem
+                                
+                                menuSubItem("Analytic Explore Subclasses",
+                                            
+                                            tabName = "exploreSubclasses",
+                                            
+                                            icon = icon("explore")
+                                )##End-menuSubItem
+                                
+                                
+                       )##End-menuItem
                        
                      )##End-sidebarMenu
                      
@@ -149,17 +166,142 @@ shinyUI(
                 fluidRow(
                   
                   box(
+                    
                     width = 15,
+                    
                     title = h3("Output"),
+                    
                   ),#End-Box
                   
                 ),##End-fluidRow-Output
         ),##End-tabItem-DataTable
         
         # Tab-02:
-        tabItem(tabName = "analysis",
+        tabItem(tabName = "analyticSimples",
+            
+            fluidRow(
+              box(
                 
-        )##End-tabItem-02
+                title = "Choose class be analyzed:",
+                
+                selectInput("class",
+                            "",
+                            choices = c("Class01", 
+                                        "Class02",
+                                        "Class03"),
+                            selected = NULL),
+              ),##End-box
+              
+              box(
+                
+                title = "Choose Year",
+                
+                selectInput("year",
+                            "",
+                            choices = c("2000","2001", "2002", "2003","2004", "2005","2006", "2007", "2008", "2009", 
+                                         "2010","2011", "2012", "2013", "2014", "2015", "2016", "2017","2018","2019")),
+              ),##End-box
+            ),##End-fluidRow: Choose class be analyzed
+            
+            fluidRow(
+              
+              box(
+                width = 12, 
+                
+                title = 'Output',
+                
+                actionButton("removeFilters", "Remove All Filters"),
+                
+              ),##End-box
+              
+            ),##End-fluidRow
+            
+            fluidRow(
+              
+              box(
+                width = 12, 
+                
+                title = "Plot Samples",
+                
+                selectInput("index",
+                            "Index:",
+                            choices = c("NDVI", "other", "other"),
+                            selected = "NDVI"),
+                
+              ),##End-box
+              
+            ),##End-fluidRow
+            
+        ),##End-tabItem-02
+        
+        tabItem(tabName = "exploreSubclasses",
+                
+                fluidRow(
+                  
+                  box(
+                    
+                    title = "HClust:",
+                    
+                    selectInput("class",
+                                "Input data: Weigth vectors",
+                                choices = c("Class01", 
+                                            "Class02",
+                                            "Class03"),
+                                selected = NULL),
+                  ),##End-box
+                  
+                  box(
+                    title = "Cluster Dendogram",
+                    
+                    numericInput("numberCluster", "Define Number of cluster:", value = 1),
+                    
+                    numericInput("height","Height:", value = 1),
+                    
+                  ),##End-box
+                  
+                ),##End-fluidRow
+                
+                fluidRow(
+                  
+                  box(
+                    width = 3,
+                    
+                    title = "Choose Year",
+                    
+                    selectInput("year",
+                                "",
+                                choices = c("2000","2001", "2002", "2003","2004", "2005","2006", "2007", "2008", "2009", 
+                                            "2010","2011", "2012", "2013", "2014", "2015", "2016", "2017","2018","2019")),
+                  ),##End-box
+                  
+                  box(
+                    width = 9, 
+                    
+                    title = 'Output',
+                    
+                    actionButton("removeFilters", "Remove All Filters"),
+                    
+                  ),##End-box
+                  
+                ),##End-fluidRow
+                
+                fluidRow(
+                  
+                  box(
+                    width = 12, 
+                    
+                    title = "Plot Samples",
+                    
+                    selectInput("index",
+                                "Index:",
+                                choices = c("NDVI", "other", "other"),
+                                selected = "NDVI"),
+                    
+                  ),##End-box
+                  
+                ),##End-fluidRow
+                
+        )##End-tabItem
       )##End-tabItems
     )##End-dashboardBody
   )##End-dashboardPage
