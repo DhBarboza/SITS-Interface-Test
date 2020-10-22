@@ -36,35 +36,22 @@ shinyUI(
                                 
                                 fileInput("File", "Choose File"),
                                 
-                                menuSubItem("Assess Quality",
-                                            tabName = "quality",
-                                            icon = icon("line-chart")
-                                ),##End-menuSubItem-Assess-Quality
+                                menuSubItem("Assess Quality", tabName = "quality", icon = icon("null")),
+                                ##End-menuSubItem-Assess-Quality
                                 
-                                menuSubItem("Data Table",
-                                            tabName = "dataTable",
-                                            icon = icon("table")
-                                )##End-menuSubItem-Data-Table
+                                menuSubItem("Data Table", tabName = "dataTable", icon = icon("null"))
+                                ##End-menuSubItem-Data-Table
                                 
                        ),##End-menuItem-Quality-control-samples
                        
                        menuItem("ST-Analysis", icon = icon("th"),
                                 
-                                menuSubItem("Analytic Simple",
-                                            
-                                            tabName = "analyticSimples",
-                                            
-                                            icon = icon("simple")
-                                ),##End-menuSubItem
+                                menuSubItem("Analytic Simple", tabName = "analyticSimples", icon = icon("simple")),
+                                ##End-menuSubItem
                                 
-                                menuSubItem("Analytic Explore Subclasses",
-                                            
-                                            tabName = "exploreSubclasses",
-                                            
-                                            icon = icon("explore")
-                                )##End-menuSubItem
-                                
-                                
+                                menuSubItem("Analytic Explore Subclasses", tabName = "exploreSubclasses", icon = icon("explore"))
+                                ##End-menuSubItem
+                              
                        )##End-menuItem
                        
                      )##End-sidebarMenu
@@ -79,8 +66,7 @@ shinyUI(
                 fluidRow(
                   ## Input Parameters Box
                   # 01
-                  box(width = 4,
-                      title = h3("Input Parameters"),
+                  box(width = 4, title = h3("Input Parameters"),
                       
                       numericInput("gridX", "Grid-X:", value = 1),
                       
@@ -90,29 +76,17 @@ shinyUI(
                       
                       numericInput("len", "Len:", value = 1),
                       
-                      selectInput("selectDistance",
-                                  "Distance:",
-                                  choices = c("Euclidean",
-                                              "Other"))
+                      selectInput("selectDistance", "Distance:", choices = c("Euclidean","Other"))
                       
                   ),##End-Box-01
                   
                   ## Output SOM Grid
                   # 02:
-                  box(width = 8,
-                      title = h2("SOM Grid"),
+                  box(width = 8, title = h2("SOM Grid"),
                       
-                      selectInput("vegetationIndex",
-                                  "Vegetation Index",
-                                  choices = c("NDVI",
-                                              "Other",
-                                              "Other2")),
+                      selectInput("vegetationIndex", "Vegetation Index", choices = c("NDVI", "Other", "Other2")),
                       
-                      selectInput("typePlot",
-                                  "Type Plot",
-                                  choices = c("Patterns",
-                                              "Other",
-                                              "Other2")),
+                      selectInput("typePlot", "Type Plot", choices = c("Patterns", "Other", "Other2")),
                       
                   ),##End-Box-02
                   
@@ -120,9 +94,11 @@ shinyUI(
                 
                 ##FluidRow Cluster:
                 fluidRow(
-                  box(width = 15,
-                      title = h2("Confusion Between Cluster"),
+                  
+                  box(width = 12, title = h2("Confusion Between Cluster"),
+                      
                   ),##End-Box
+                  
                 ),##End-fluidRow-Cluster
                 
         ),##End-tabItem-01-Quality
@@ -132,23 +108,24 @@ shinyUI(
                 
                 fluidRow(
                   
-                  box(
-                    title = h2("Define the Sample Quality"),
+                  box(title = h2("Define the Sample Quality"),
                     
                     numericInput("conditional", "Conditional", value = 50),
                     
                     numericInput("posterior", "Posterior", value = 50),
+                    
                   ),##End-Box
                   
-                  box(
-                    title = h2("Summary"),
+                  box(title = h2("Summary"),
                     
                     helpText("X% samples will be kept"),
                     
                     helpText("Y% samples will be removed"),
                     
                     helpText("Z% samples must be analyzed"),
+                    
                   ),##End-Box
+                  
                 ),##End-fluidRow-Configs-Sample-Quality
                 
                 fluidRow(
@@ -165,50 +142,35 @@ shinyUI(
                 
                 fluidRow(
                   
-                  box(
-                    
-                    width = 15,
-                    
-                    title = h3("Output"),
+                  box(width = 12, title = h3("Output"),
                     
                   ),#End-Box
                   
                 ),##End-fluidRow-Output
+                
         ),##End-tabItem-DataTable
         
         # Tab-02:
         tabItem(tabName = "analyticSimples",
             
             fluidRow(
-              box(
+              
+              box(title = "Choose class be analyzed:",
                 
-                title = "Choose class be analyzed:",
+                selectInput("class", "", choices = c("Class01", "Class02", "Class03"), selected = NULL),
                 
-                selectInput("class",
-                            "",
-                            choices = c("Class01", 
-                                        "Class02",
-                                        "Class03"),
-                            selected = NULL),
               ),##End-box
               
-              box(
-                
-                title = "Choose Year",
-                
-                selectInput("year",
-                            "",
+              box(title = "Choose Year", selectInput("year", "",
                             choices = c("2000","2001", "2002", "2003","2004", "2005","2006", "2007", "2008", "2009", 
                                          "2010","2011", "2012", "2013", "2014", "2015", "2016", "2017","2018","2019")),
               ),##End-box
+              
             ),##End-fluidRow: Choose class be analyzed
             
             fluidRow(
               
-              box(
-                width = 12, 
-                
-                title = 'Output',
+              box(width = 12, title = 'Output',
                 
                 actionButton("removeFilters", "Remove All Filters"),
                 
@@ -218,15 +180,9 @@ shinyUI(
             
             fluidRow(
               
-              box(
-                width = 12, 
+              box(width = 12, title = "Plot Samples",
                 
-                title = "Plot Samples",
-                
-                selectInput("index",
-                            "Index:",
-                            choices = c("NDVI", "other", "other"),
-                            selected = "NDVI"),
+                selectInput("index", "Index:", choices = c("NDVI", "other", "other"), selected = "NDVI"),
                 
               ),##End-box
               
@@ -238,20 +194,11 @@ shinyUI(
                 
                 fluidRow(
                   
-                  box(
-                    
-                    title = "HClust:",
-                    
-                    selectInput("class",
-                                "Input data: Weigth vectors",
-                                choices = c("Class01", 
-                                            "Class02",
-                                            "Class03"),
-                                selected = NULL),
+                  box(title = "HClust:", selectInput("class", "Input data: Weigth vectors",
+                                choices = c("Class01", "Class02", "Class03"), selected = NULL),
                   ),##End-box
                   
-                  box(
-                    title = "Cluster Dendogram",
+                  box(title = "Cluster Dendogram",
                     
                     numericInput("numberCluster", "Define Number of cluster:", value = 1),
                     
@@ -263,21 +210,14 @@ shinyUI(
                 
                 fluidRow(
                   
-                  box(
-                    width = 3,
+                  box(width = 3, title = "Choose Year",
                     
-                    title = "Choose Year",
-                    
-                    selectInput("year",
-                                "",
+                    selectInput("year", "", 
                                 choices = c("2000","2001", "2002", "2003","2004", "2005","2006", "2007", "2008", "2009", 
                                             "2010","2011", "2012", "2013", "2014", "2015", "2016", "2017","2018","2019")),
                   ),##End-box
                   
-                  box(
-                    width = 9, 
-                    
-                    title = 'Output',
+                  box(width = 9, title = 'Output',
                     
                     actionButton("removeFilters", "Remove All Filters"),
                     
@@ -287,15 +227,9 @@ shinyUI(
                 
                 fluidRow(
                   
-                  box(
-                    width = 12, 
+                  box(width = 12, title = "Plot Samples",
                     
-                    title = "Plot Samples",
-                    
-                    selectInput("index",
-                                "Index:",
-                                choices = c("NDVI", "other", "other"),
-                                selected = "NDVI"),
+                    selectInput("index", "Index:", choices = c("NDVI", "other1", "other2"),selected = "NDVI"),
                     
                   ),##End-box
                   
