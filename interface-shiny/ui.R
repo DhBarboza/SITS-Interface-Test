@@ -32,9 +32,17 @@ shinyUI(
                      
                      sidebarMenu(
                        
-                       menuItem("Quality Control Samples", icon = icon("chart-bar"),
+                       menuItem("Input File", icon = icon("list-ul"),
                                 
-                                fileInput("File", "Choose File"),
+                                menuSubItem("Upload File", tabName = "file", icon = icon("angle-right")),
+                                
+                                menuSubItem("Data Visualization Config.", tabName = "data", icon = icon("angle-right")),
+                                
+                                menuSubItem("Plot", tabName = "plot", icon = icon("angle-right"))
+
+                                ),##End-menuItem-Files
+                       
+                       menuItem("Quality Control Samples", icon = icon("chart-bar"),
                                 
                                 menuSubItem("Assess Quality", tabName = "quality", icon = icon("null")),
                                 ##End-menuSubItem-Assess-Quality
@@ -61,6 +69,54 @@ shinyUI(
     ## <!-- BODY -->
     dashboardBody(
       tabItems(
+        
+        # tab-Uplod-File:
+        tabItem(tabName = "file",
+          fluidRow(
+            box(width = 4,
+              
+              fileInput("chooseFile", "Choose File", multiple = FALSE),
+              
+              checkboxInput("header", "Header:", TRUE),
+              
+              radioButtons("separator", "Separator:", 
+                           choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
+                           selected = ","),
+              
+              radioButtons("quote", "Quote:",
+                           choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                           selected = '"'),
+              
+              radioButtons("display", "Display:",
+                           choices = c(Head = "head", All = "all"),
+                           selected = "head"),
+              
+            ),##End-box
+            
+            box(title = "Output"
+            ),##End-box
+            
+          ),##End-fluidRow
+        ),##End-tabItem
+        
+        # tab-dataVisualization:
+        tabItem(tabName = "data",
+          fluidRow(
+            box(
+              
+              checkboxGroupInput("columns", "Select Columns", choices = NULL),
+                    
+            ),##End-box
+                  
+          ),##End-fluidRow
+                
+        ),##End-tabItem
+        
+        tabItem(tabName = "plot",
+                
+        ),##End-tabItem
+        
+        
         # Tab-01-Quality:
         tabItem(tabName = "quality",
                 fluidRow(
