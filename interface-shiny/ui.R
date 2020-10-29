@@ -21,13 +21,13 @@ shinyUI(
   ## ),
   
   
-  ## LOAD PAGE LAYOUT:
+## LOAD PAGE LAYOUT:
   dashboardPage(
     
-    ## <!-- HEAD -->
+## <!-- HEAD -->
     dashboardHeader(title = "Satelite Image Time Series Analysis", titleWidth = 300),##End-dashboardHeader
     
-    ##<!-- SIDEBAR -->
+##<!-- SIDEBAR -->
     dashboardSidebar(width = 300,
                      
                      sidebarMenu(
@@ -35,8 +35,6 @@ shinyUI(
                        menuItem("Input File", icon = icon("list-ul"),
                                 
                                 menuSubItem("Upload File", tabName = "file", icon = icon("angle-right")),
-                                
-                                menuSubItem("Data Visualization Config.", tabName = "data", icon = icon("angle-right")),
                                 
                                 menuSubItem("Plot", tabName = "plot", icon = icon("angle-right"))
 
@@ -66,53 +64,72 @@ shinyUI(
                      
     ),##End-dashboardSidebar
     
-    ## <!-- BODY -->
+## <!-- BODY -->
     dashboardBody(
       tabItems(
         
         # tab-Uplod-File:
         tabItem(tabName = "file",
           fluidRow(
-            box(width = 4,
-              
-              fileInput("chooseFile", "Choose File", multiple = FALSE),
-              
-              checkboxInput("header", "Header:", TRUE),
-              
-              radioButtons("separator", "Separator:", 
-                           choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
-                           selected = ","),
-              
-              radioButtons("quote", "Quote:",
-                           choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
-                           selected = '"'),
-              
-              radioButtons("display", "Display:",
-                           choices = c(Head = "head", All = "all"),
-                           selected = "head"),
-              
-            ),##End-box
             
-            box(title = "Output"
-            ),##End-box
-            
-          ),##End-fluidRow
-        ),##End-tabItem
-        
-        # tab-dataVisualization:
-        tabItem(tabName = "data",
-          fluidRow(
-            box(
-              
-              checkboxGroupInput("columns", "Select Columns", choices = NULL),
-                    
-            ),##End-box
-                  
-          ),##End-fluidRow
+            box(width = 12, title = "File Settings", solidHeader = TRUE, status = "primary", 
                 
+              column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
+                        checkboxInput("header", "Header", TRUE)),
+              
+              column(3, radioButtons("separator", "Separator:", 
+                                      choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
+                                      selected = ",")),
+              
+              column(3, radioButtons("quote", "Quote:", 
+                                     choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                                     selected = '"')),
+              
+              column(3, radioButtons("display", "Display:",
+                                     choices = c(Head = "head", All = "all"),
+                                     selected = "head")),
+              
+              column(3, checkboxGroupInput("columns", "Select Columns", choices = NULL)),
+              
+            ),##End-Box
+            
+          ),##End-fluidRow
+          
+          fluidRow(
+            
+            column(12, tableOutput("fileUpload"))
+            
+          ),##End-fluidRow
+          
         ),##End-tabItem
         
         tabItem(tabName = "plot",
+          fluidRow(
+          box(width = 4, title = "Visualization", solidHeader = TRUE, status = "primary",
+                
+                selectInput("visualization", "Choose a type of visualization",
+                            choices = c("Line", "Ribbon", "Rect")),
+                
+                conditionalPanel(condition = "input.visualization == 'Line'",
+                                 checkboxInput("change_color", strong("Show color"), value = TRUE)),
+                
+                conditionalPanel(condition = "input.visualization == 'Ribbon'",
+                                 sliderInput("slider_cluster_ribbon", "Choose the numbers of cluster:",
+                                             min = 1, max = 4, value = 2, step = 1)),
+                
+                conditionalPanel(condition = "input.visualization == 'Rect'",
+                                 sliderInput("slider_cluster_rect", "Choose the number of cluster",
+                                             min = 1, max = 4, value = 2, step = 1),
+                                 
+                                 checkboxInput("neurons_grid", strong("Make neurons per grid"), value = TRUE)),
+                
+                actionButton("showPlot", "Plot")
+              
+            ),##End-Box
+            
+            column(10, plotOutput("plot")),
+            
+          ),##End-FluidRow
                 
         ),##End-tabItem
         
@@ -122,7 +139,7 @@ shinyUI(
                 fluidRow(
                   ## Input Parameters Box
                   # 01
-                  box(width = 4, title = h3("Input Parameters"),
+                  box(width = 4, title = h3("Input Parameters"), solidHeader = TRUE, status = "primary",
                       
                       numericInput("gridX", "Grid-X:", value = 1),
                       
@@ -138,7 +155,7 @@ shinyUI(
                   
                   ## Output SOM Grid
                   # 02:
-                  box(width = 8, title = h2("SOM Grid"),
+                  box(width = 8, title = h2("SOM Grid"), status = "primary",
                       
                       selectInput("vegetationIndex", "Vegetation Index", choices = c("NDVI", "Other", "Other2")),
                       
@@ -151,7 +168,7 @@ shinyUI(
                 ##FluidRow Cluster:
                 fluidRow(
                   
-                  box(width = 12, title = h2("Confusion Between Cluster"),
+                  column(width = 12, title = h2("Confusion Between Cluster"),
                       
                   ),##End-Box
                   
@@ -186,23 +203,19 @@ shinyUI(
                 
                 fluidRow(
                   
-                  column(2, actionButton("inputSamples", "Input Samples")),
-                  
-                  column(2, actionButton("samplesStatus", "Samples Status")),
-                  
-                  column(2, actionButton("subclasses", "Subclasses")),
-                  
-                  column(2, actionButton("outputSamples", "Output Samples")),
+                  tabBox(width = 12,
+                    
+                    tabPanel("Input Samples", "Output"),
+                    
+                    tabPanel("Samples Status", "Output"),
+                    
+                    tabPanel("Subclasses", "Output"),
+                    
+                    tabPanel("Output Samples", "Output")
+                    
+                  ),##End-tabBox
                   
                 ),##End-fluidRow-Visualization
-                
-                fluidRow(
-                  
-                  box(width = 12, title = h3("Output"),
-                    
-                  ),#End-Box
-                  
-                ),##End-fluidRow-Output
                 
         ),##End-tabItem-DataTable
         
