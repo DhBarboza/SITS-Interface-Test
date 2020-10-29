@@ -24,11 +24,11 @@ shinyUI(
 ## LOAD PAGE LAYOUT:
   dashboardPage(
     
-## <!-- HEAD -->
-    dashboardHeader(title = "Satelite Image Time Series Analysis", titleWidth = 300),##End-dashboardHeader
+## .<!-- HEAD -->.
+    dashboardHeader(title = "Satelite Image Time Series Analysis", titleWidth = 250),##End-dashboardHeader
     
-##<!-- SIDEBAR -->
-    dashboardSidebar(width = 300,
+##.<!-- SIDEBAR -->.
+    dashboardSidebar(width = 250,
                      
                      sidebarMenu(
                        
@@ -38,71 +38,93 @@ shinyUI(
                                 
                                 menuSubItem("Plot", tabName = "plot", icon = icon("angle-right"))
 
-                                ),##End-menuItem-Files
+                                ),#<- End menuItem Files ->
                        
                        menuItem("Quality Control Samples", icon = icon("chart-bar"),
                                 
                                 menuSubItem("Assess Quality", tabName = "quality", icon = icon("null")),
-                                ##End-menuSubItem-Assess-Quality
+                                #<- End menuSubItem Assess Quality ->
                                 
                                 menuSubItem("Data Table", tabName = "dataTable", icon = icon("null"))
-                                ##End-menuSubItem-Data-Table
+                                #<- End menuSubItem Data Table ->
                                 
                        ),##End-menuItem-Quality-control-samples
                        
                        menuItem("ST-Analysis", icon = icon("th"),
                                 
                                 menuSubItem("Analytic Simple", tabName = "analyticSimples", icon = icon("simple")),
-                                ##End-menuSubItem
+                                #<- End-menuSubItem ->
                                 
                                 menuSubItem("Analytic Explore Subclasses", tabName = "exploreSubclasses", icon = icon("explore"))
-                                ##End-menuSubItem
+                                #<- End menuSubItem ->
                               
-                       )##End-menuItem
+                       )#<-- End menuItem -->
                        
-                     )##End-sidebarMenu
+                     )#<-- End sidebarMenu -->
                      
-    ),##End-dashboardSidebar
+    ),#.<--- End-dashboardSidebar --->.
     
-## <!-- BODY -->
+## .<!-- BODY -->.
     dashboardBody(
       tabItems(
         
-        # tab-Uplod-File:
+   #<-- Side tab Uplod File -->
         tabItem(tabName = "file",
+                
           fluidRow(
             
-            box(width = 12, title = "File Settings", solidHeader = TRUE, status = "primary", 
+      #<-- File Settings --> 
+            box(title = "File Settings", solidHeader = TRUE, status = "primary", width = 12, collapsible = TRUE,
+              
+              tabBox(height = "200px", width = 12,
                 
-              column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
-                        checkboxInput("header", "Header", TRUE)),
+           #<-- Set File Options --> 
+                tabPanel("FILE", 
+                         
+                         column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
+                                               checkboxInput("header", "Header", TRUE)),
+                         column(1),
+                         
+                         column(3, radioButtons("separator", "Separator:", 
+                                                choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
+                                                selected = ",")),
+                         
+                         column(3, radioButtons("quote", "Quote:", 
+                                                choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                                                selected = '"')),
+                         
+                         column(2, radioButtons("display", "Display:",
+                                                choices = c(Head = "head", All = "all"),
+                                                selected = "head")),
+                         
+                         
+                         
+                ),# <-- End tabPanel: FILE -->
+           
+           #<-- Set Data Options -->
+                tabPanel("DATA", 
+                         
+                         column(3, checkboxGroupInput("columns", "Select Columns", choices = NULL)),
+                         
+                )# <-- End tabPanel: DATA -->
+                
+              ),# <-- End tabBox --> 
               
-              column(3, radioButtons("separator", "Separator:", 
-                                      choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
-                                      selected = ",")),
-              
-              column(3, radioButtons("quote", "Quote:", 
-                                     choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
-                                     selected = '"')),
-              
-              column(3, radioButtons("display", "Display:",
-                                     choices = c(Head = "head", All = "all"),
-                                     selected = "head")),
-              
-              column(3, checkboxGroupInput("columns", "Select Columns", choices = NULL)),
-              
-            ),##End-Box
+            ),# <-- End Box -->
             
-          ),##End-fluidRow
+
+            
+          ),#<-- End fluidRow -->
           
           fluidRow(
             
             column(12, tableOutput("fileUpload"))
             
-          ),##End-fluidRow
+          ),#<-- End fluidRow -->
           
-        ),##End-tabItem
-        
+        ),#<-- End tabItem -->
+      
+   #<-- Side tab Plot-->
         tabItem(tabName = "plot",
           fluidRow(
           box(width = 4, title = "Visualization", solidHeader = TRUE, status = "primary",
@@ -125,13 +147,13 @@ shinyUI(
                 
                 actionButton("showPlot", "Plot")
               
-            ),##End-Box
+            ),#<-- End Box -->
             
             column(10, plotOutput("plot")),
             
-          ),##End-FluidRow
+          ),#<-- End FluidRow -->
                 
-        ),##End-tabItem
+        ),#<-- End-tabItem -->
         
         
         # Tab-01-Quality:
