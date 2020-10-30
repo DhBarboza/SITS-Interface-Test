@@ -34,9 +34,11 @@ shinyUI(
                        
                        menuItem("Input File", icon = icon("list-ul"),
                                 
-                                menuSubItem("Upload File", tabName = "file", icon = icon("angle-right")),
+                                menuSubItem("1 - Upload File", tabName = "file", icon = icon("angle-right")),
                                 
-                                menuSubItem("Plot", tabName = "plot", icon = icon("angle-right"))
+                                menuSubItem("2 - Column View", tabName = "columnView", icon = icon("angle-right")),
+                                
+                                menuSubItem("3 - Plot", tabName = "plot", icon = icon("angle-right"))
 
                                 ),#<- End menuItem Files ->
                        
@@ -70,59 +72,43 @@ shinyUI(
         
    #<-- Side tab Uplod File -->
         tabItem(tabName = "file",
-                
           fluidRow(
-            
-      #<-- File Settings --> 
-            box(title = "File Settings", solidHeader = TRUE, status = "primary", width = 12, collapsible = TRUE,
-              
-              tabBox(height = "200px", width = 12,
+            box(title = "File Settings", solidHeader = TRUE, status = "primary", width = 4,
                 
-           #<-- Set File Options --> 
-                tabPanel("FILE", 
-                         
-                         column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
-                                               checkboxInput("header", "Header", TRUE)),
-                         column(1),
-                         
-                         column(3, radioButtons("separator", "Separator:", 
-                                                choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
-                                                selected = ",")),
-                         
-                         column(3, radioButtons("quote", "Quote:", 
-                                                choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
-                                                selected = '"')),
-                         
-                         column(2, radioButtons("display", "Display:",
-                                                choices = c(Head = "head", All = "all"),
-                                                selected = "head")),
-                         
-                         
-                         
-                ),# <-- End tabPanel: FILE -->
-           
-           #<-- Set Data Options -->
-                tabPanel("DATA", 
-                         
-                         column(3, checkboxGroupInput("columns", "Select Columns", choices = NULL)),
-                         
-                )# <-- End tabPanel: DATA -->
+                fileInput("chooseFile", "Choose File", multiple = FALSE),
                 
-              ),# <-- End tabBox --> 
-              
-            ),# <-- End Box -->
+                checkboxInput("header", "Header", TRUE),
+                
+                radioButtons("separator", "Separator:", 
+                             choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
+                             selected = ","),
+                
+                radioButtons("quote", "Quote:", 
+                             choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                             selected = '"'),
+                
+                radioButtons("display", "Display:",
+                             choices = c(Head = "head", All = "all"),
+                             selected = "head"),
+            ),#<- End Box
             
-
-            
-          ),#<-- End fluidRow -->
-          
-          fluidRow(
-            
-            column(12, tableOutput("fileUpload"))
+            column(8, tableOutput("fileUpload"))
             
           ),#<-- End fluidRow -->
           
         ),#<-- End tabItem -->
+      
+   #<-- Side tab Column View -->
+        tabItem(tabName = "columnView",
+          fluidRow(
+            box(title = "Select Columns:", solidHeader = TRUE, status = "primary",
+                
+                column(3, checkboxGroupInput("columns", "", choices = NULL)),
+                
+                ),#<- End Box
+            column(9, tableOutput("table"))
+          ),#<- End Fluid Row
+        ),#<- End tabItem
       
    #<-- Side tab Plot-->
         tabItem(tabName = "plot",
