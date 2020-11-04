@@ -7,6 +7,7 @@ library(tidyverse)
 
 server <- function(input, output, session) {
   
+# <---------------------- IMPORT ---------------------------->  
   output$view_file <- renderTable({
     
     req(input$chooseFile)
@@ -31,13 +32,9 @@ server <- function(input, output, session) {
         v_plot <- eventReactive(input$showPlot, {
           switch(
             input$visualization,
-            "Line" = ggsom::ggsom_line(aes_som(model_som), input$change_color),
-            "Ribbon" = ggsom::ggsom_ribbon(aes_som(
-              model_som, cutree_value=input$slider_cluster_ribbon), TRUE),
-            "Rect" = ggsom::ggsom_rect(
-              aes_som(model_som, cutree_value=input$slider_cluster_rect),
-              input$neurons_grid
-            )
+            "Codes"   = plot(v_som, type = "codes"),
+            "Counts"  = plot(v_som, type = "counts"),
+            "Mapping" = plot(v_som, type = "mapping")
           )# <- /switch
           
         })# <- /v_plot
@@ -66,5 +63,7 @@ server <- function(input, output, session) {
     }
     
   })# <- /renderTable: view_file
+  
+# <---------------------- /IMPORT ---------------------------->  
   
 }# <- /function

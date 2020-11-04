@@ -80,23 +80,8 @@ body <- dashboardBody(
                        
                        tabPanel("Plot",
                                 fluidRow(
-                                  column(4,
-                                      
-                                      selectInput("visualization", "Choose a type of visualization",
-                                                  choices = c("Line", "Ribbon", "Rect")),
-                                      
-                                      conditionalPanel(condition = "input.visualization == 'Line'",
-                                                       checkboxInput("change_color", strong("Show color"), value = TRUE)),
-                                      
-                                      conditionalPanel(condition = "input.visualization == 'Ribbon'",
-                                                       sliderInput("slider_cluster_ribbon", "Choose the numbers of cluster:",
-                                                                   min = 1, max = 4, value = 2, step = 1)),
-                                      
-                                      conditionalPanel(condition = "input.visualization == 'Rect'",
-                                                       sliderInput("slider_cluster_rect", "Choose the number of cluster",
-                                                                   min = 1, max = 4, value = 2, step = 1),
-                                                       
-                                                       checkboxInput("neurons_grid", strong("Make neurons per grid"), value = TRUE)),
+                                  column(4, selectInput("visualization", "Choose a type of visualization",
+                                                  choices = c("Codes", "Counts", "Mapping")),
                                       
                                       actionButton("showPlot", "Plot")
                                     
@@ -193,10 +178,10 @@ body <- dashboardBody(
     
     tabItem(tabName = "exploreSubclasses",
             fluidRow(
-              box(title = "HClust:", status = "primary", selectInput("class", "Input data: Weigth vectors",
+              box(title = "HClust:", solidHeader = TRUE, status = "primary", selectInput("class", "Input data: Weigth vectors",
                                                                       choices = c("Class01", "Class02", "Class03"), selected = NULL)),
               
-              box(title = "Cluster Dendogram", status = "primary",
+              box(title = "Cluster Dendogram", solidHeader = TRUE, status = "primary",
                   
                   numericInput("numberCluster", "Define Number of cluster:", value = 1),
                   
@@ -204,7 +189,7 @@ body <- dashboardBody(
             ),#<- /fluidRow
             
             fluidRow(
-              box(width = 3, title = "Choose Year", status = "primary",
+              box(width = 3, title = "Choose Year", solidHeader = TRUE, status = "primary",
                   selectInput("year", "", 
                               choices = c("2000","2001", "2002", "2003","2004", "2005","2006", "2007", "2008", "2009", 
                                           "2010","2011", "2012", "2013", "2014", "2015", "2016", "2017","2018","2019"))),
