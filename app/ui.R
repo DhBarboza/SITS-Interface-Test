@@ -7,92 +7,92 @@ library(shinydashboard)
 header <- dashboardHeader(title = "Satelite Image Time Series Analysis", titleWidth = 250)
 
 sidebar <- dashboardSidebar(width = 250,
-                            
-                            sidebarMenu(
-                              
-                              menuItem("Import", tabName = "import", icon = icon("folder-open")),
-                              
-                              menuItem("Quality Control Samples", icon = icon("chart-bar"),
-                                       
-                                       menuSubItem("Assess Quality", tabName = "quality", icon = icon("angle-right")),
-                                       
-                                       menuSubItem("Data Table", tabName = "dataTable", icon = icon("angle-right"))
-                                       
-                                    ),# <- /menuItem: Quality Control Samples
-                              
-                              menuItem("ST-Analysis", icon = icon("th"),
-                                       
-                                       menuSubItem("Analytic Simple", tabName = "analyticSimple", icon = icon("angle-right")),
-                                       
-                                       menuSubItem("Analytic Explore Subclasses", tabName = "exploreSubclasses", icon = icon("angle-right"))
-                                       
-                                    )# <- menuItem: ST-Analysis
-                              
-                            )# <- /Sidebar Menu
-                            
-            )
-            # <--- /SIDEBAR --->
+    
+    sidebarMenu(
+      
+      menuItem("Import", tabName = "import", icon = icon("folder-open")),
+      
+      menuItem("Quality Control Samples", icon = icon("chart-bar"),
+               
+               menuSubItem("Assess Quality", tabName = "quality", icon = icon("angle-right")),
+               
+               menuSubItem("Data Table", tabName = "dataTable", icon = icon("angle-right"))
+               
+            ),# <- /menuItem: Quality Control Samples
+      
+      menuItem("ST-Analysis", icon = icon("th"),
+               
+               menuSubItem("Analytic Simple", tabName = "analyticSimple", icon = icon("angle-right")),
+               
+               menuSubItem("Analytic Explore Subclasses", tabName = "exploreSubclasses", icon = icon("angle-right"))
+               
+            )# <- /menuItem: ST-Analysis
+      
+    )# <- /Sidebar Menu
+    
+  )
+  # <--- /SIDEBAR --->
 
 body <- dashboardBody(
   tabItems(
   # <--------------------- <SIDEBAR TABS CONFIGURATION> -------------------------->  
   # <--------------------- <TAB IMPORT> -------------------------->  
-    tabItem(tabName = "import",
-                tabBox(width = 13, 
-                       
-                       tabPanel("File Config",
-                                
-                                fluidRow(
-                                  
-                                  column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
-                                         
-                                                checkboxInput("header", "Header", TRUE)),
-                                         
-                                  column(1),
-                                         
-                                  column(3, radioButtons("separator", "Separator:", 
-                                                                choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
-                                                                selected = ",")),
-                                         
-                                  column(3, radioButtons("quote", "Quote:", 
-                                                                choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
-                                                                selected = '"')),
-                                         
-                                  column(2, radioButtons("display", "Display:",
-                                                                choices = c(Head = "head", All = "all"),
-                                                                selected = "head"))
-                                  ),#<- /Fluid Row
-                                
-                                fluidRow( tableOutput("view_file"))
-                                
-                       ),#<- /Tab Panel: File Config
-                       
-                       
-                       
-                       tabPanel("Column View",
-                                fluidRow(
-                                  column(4, checkboxGroupInput("columns", "Select Columns:", choices = NULL))
-                                ),
-                                
-                                fluidRow(tableOutput("column_view"))
-                                
-                       ),#<- /Tab Panel: Column View
-                       
-                       tabPanel("Plot",
-                                fluidRow(
-                                  column(4, selectInput("visualization", "Choose a type of visualization",
-                                                  choices = c("Codes", "Counts", "Mapping")),
-                                      
-                                      actionButton("showPlot", "Plot")
-                                    
-                                  ),# <- column: Visualization
-                                ),# <- /Fluid Row
-                                
-                                fluidRow(plotOutput("plot"))
-                       )# <- /Tab Panel: Plot
-                       
-              ),#<- /Tab Box
-  
+  tabItem(tabName = "import",
+        tabBox(width = 13, 
+               
+               tabPanel("File Config",
+                        
+                        fluidRow(
+                          
+                          column(3, fileInput("chooseFile", "Choose File", multiple = FALSE),
+                                 
+                                        checkboxInput("header", "Header", TRUE)),
+                                 
+                          column(1),
+                                 
+                          column(3, radioButtons("separator", "Separator:", 
+                                                        choices = c(Comma = ",", Semicolon = ";", Tab = "\t"), 
+                                                        selected = ",")),
+                                 
+                          column(3, radioButtons("quote", "Quote:", 
+                                                        choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                                                        selected = '"')),
+                                 
+                          column(2, radioButtons("display", "Display:",
+                                                        choices = c(Head = "head", All = "all"),
+                                                        selected = "head"))
+                          ),#<- /Fluid Row
+                        
+                        fluidRow( tableOutput("view_file"))
+                        
+               ),#<- /Tab Panel: File Config
+               
+               
+               
+               tabPanel("Column View",
+                        fluidRow(
+                          column(4, checkboxGroupInput("columns", "Select Columns:", choices = NULL))
+                        ),
+                        
+                        fluidRow(tableOutput("column_view"))
+                        
+               ),#<- /Tab Panel: Column View
+               
+               tabPanel("Plot",
+                        fluidRow(
+                          column(4, selectInput("visualization", "Choose a type of visualization",
+                                          choices = c("Codes", "Counts", "Mapping")),
+                              
+                              actionButton("showPlot", "Plot")
+                            
+                          ),# <- column: Visualization
+                        ),# <- /Fluid Row
+                        
+                        fluidRow(plotOutput("plot"))
+               )# <- /Tab Panel: Plot
+               
+      ),#<- /Tab Box
+
     ),#<- /Tab Item: Import 
     # <--------------------- </TAB IMPORT> -------------------------->
     
@@ -116,7 +116,9 @@ body <- dashboardBody(
                     column(3, offset = 2, selectInput("vegetationIndex", "Vegetation Index", choices = c("NDVI", "Other", "Other2"))),
                     
                     column(3, offset = 2, selectInput("typePlot", "Type Plot", choices = c("Patterns", "Other", "Other2")))
-                  )# <- /fluidRow
+                  ),# <- /fluidRow
+                  
+                  fluidRow(plotOutput("plot_api"))
               )# <- /Box: Som Grid
             ),#<- /fluidRow
             
@@ -213,3 +215,4 @@ body <- dashboardBody(
 #<---------  /BODY ------------>
 
 dashboardPage(header, sidebar, body)
+

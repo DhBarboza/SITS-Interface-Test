@@ -1,9 +1,10 @@
 # Import Packages:
 library(shiny)
 library(shinydashboard)
-library(ggsom)
 library(kohonen)
 library(tidyverse)
+library(httr)
+
 
 server <- function(input, output, session) {
   
@@ -63,7 +64,30 @@ server <- function(input, output, session) {
     }
     
   })# <- /renderTable: view_file
-  
 # <---------------------- /IMPORT ---------------------------->  
+  
+# <---------------------- API - Request ------------------------>
+  # Request from url:
+  # Creating url:
+  # url <- httr::modify_url(url   = "http://127.0.0.1:8888",
+  #                         path  = "clustering/som/obj",
+  #                         query = list(xdim  = input$gridX,
+  #                                      ydim  = input$gridY,
+  #                                      rlen  = input$len,
+  #                                      alpha = input$selectDistance))
+  # request_som <- httr::POST(
+  #   url  = url,
+  #   body = input$chooseFile,
+  #   encode = "json")
+  # 
+  # # kohonen object from "kohonen package"
+  # kobj <- unserialize(httr::content(request_som, as = "raw"))
+  # 
+  # output$plot_api <- renderPlot({
+  #   kobj()
+  # })
+  
+# <---------------------- /API - Request ------------------------>
+  
   
 }# <- /function
