@@ -30,12 +30,28 @@ server <- function(input, output, session) {
         
         v_som <- kohonen::som(scale(df), grid = somgrid(6,4, "rectangular"))
         
+        ## Test API:
+        # url <- httr::modify_url(url   = "http://127.0.0.1:8888/",
+        #                         path  = "clustering/som/obj",
+        #                         query = list(xdim  = 6,
+        #                                      ydim  = 4,
+        #                                      rlen  = 1,
+        #                                      alpha = 0.5))
+        # request_som <- httr::POST(
+        #   url  = url,
+        #   body = tibble::as_tibble(df),
+        #   encode = "json",
+        #   httr::verbose())
+        # 
+        # v_som <- unserialize(httr::content(request_som, as = "raw"))
+        
         v_plot <- eventReactive(input$showPlot, {
           switch(
             input$visualization,
             "Codes"   = plot(v_som, type = "codes"),
             "Counts"  = plot(v_som, type = "counts"),
-            "Mapping" = plot(v_som, type = "mapping")
+            "Mapping" = plot(v_som, type = "mapping"),
+            
           )# <- /switch
           
         })# <- /v_plot
@@ -67,14 +83,14 @@ server <- function(input, output, session) {
 # <---------------------- /IMPORT ---------------------------->  
   
 # <---------------------- API - Request ------------------------>
-  # Request from url:
-  # Creating url:
+  ## Request from url:
+  ## Creating url:
   # url <- httr::modify_url(url   = "http://127.0.0.1:8888",
   #                         path  = "clustering/som/obj",
-  #                         query = list(xdim  = input$gridX,
-  #                                      ydim  = input$gridY,
+  #                         query = list(xdim  = input$Xdim,
+  #                                      ydim  = input$Ydim,
   #                                      rlen  = input$len,
-  #                                      alpha = input$selectDistance))
+  #                                      alpha = input$alpha))
   # request_som <- httr::POST(
   #   url  = url,
   #   body = input$chooseFile,
@@ -84,7 +100,7 @@ server <- function(input, output, session) {
   # kobj <- unserialize(httr::content(request_som, as = "raw"))
   # 
   # output$plot_api <- renderPlot({
-  #   kobj()
+  #   kobj
   # })
   
 # <---------------------- /API - Request ------------------------>
