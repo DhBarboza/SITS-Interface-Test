@@ -69,8 +69,19 @@ function(req, res) {
     if (is.null(req$args$rlen))
       req$args$rlen <- 1
     
+    # forcing type to numeric
+    # TODO: check if its really necessary
+    req$args$rlen <- as.numeric(req$args$rlen)
+    
     if (is.null(req$args$alpha))
       req$args$alpha <- 0.5
+    
+    # forcing type to numeric
+    # TODO: check if its really necessary
+    req$args$alpha <- as.numeric(req$args$alpha)
+    
+    # converting do data.frame
+    req$dataset <- as.data.frame(req$dataset)
     
     # Select only numerical attributes
     req$dataset <-
