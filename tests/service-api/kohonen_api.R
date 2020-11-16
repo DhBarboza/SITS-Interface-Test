@@ -78,11 +78,11 @@ function(req, res) {
     
     # Creating a clustering with the provided parameters
     som_clustering <- kohonen::som(as.matrix(req$dataset),
-                                   grid        = kohonen::somgrid(
-                                     xdim = req$args$xdim,
-                                     ydim = req$args$ydim),
-                                   rlen        = req$args$rlen,
-                                   alpha       = req$args$alpha)
+                                    grid  = kohonen::somgrid(
+                                      xdim  = req$args$xdim, 
+                                      ydim  = req$args$ydim),
+                                     rlen  = req$args$rlen,
+                                     alpha = req$args$alpha)
     
     req$som_obj <- som_clustering
     

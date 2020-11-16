@@ -25,6 +25,14 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                 
                 sidebarPanel(
                   
+                  numericInput("x", "X-dim:", value = 1),
+                  
+                  numericInput("y", "y-dim:", value = 1),
+                  
+                  numericInput("len", "Len:", value = 1),
+                  
+                  numericInput("alpha", "Alpha:", value = 0.5),
+                  
                 ),
                 
                 mainPanel(plotOutput("plot"))
