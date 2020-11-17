@@ -10,14 +10,45 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                 
                 sidebarPanel(
                   
-                  fileInput("file", "Import your file:")
+                  fileInput("file", "Import your file:", multiple = FALSE),
+                  
+                  checkboxInput("header", "Header", TRUE),
+                  
+                  radioButtons("separator", "Separator:",
+                               choices = c(Comma = ",", Semicolon = ";", Tab = "\t"),
+                               selected = ","),
+                  
+                  radioButtons("quote", "Quote:", 
+                               choices = c(None = "", "Double Quote" = '"', "Single Quote" = "'"),
+                               selected = '"'),
+                  
+                  radioButtons("display", "Display:",
+                               choices = c(Head = "head", All = "all"),
+                               selected = "head")
+                  
+                  
                   
                 ), 
                 
                 mainPanel(tableOutput("table"))
                 
-              )# <- /sidebarLayout
-            ),
+              )# </sidebarLayout>
+              
+            ), # </TabPanel:Upload>
+     
+     tabPanel("Select Colunms",
+              sidebarLayout(
+                
+                sidebarPanel(
+                  
+                  checkboxGroupInput("columns", "Select Columns:", choices = NULL)
+                  
+                ),# </sidebarPanel>
+                
+                mainPanel(tableOutput("column_select"))
+                
+              ) # </sidebarLayout>
+      ),
      
      tabPanel("Plot",
               
@@ -25,13 +56,10 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                 
                 sidebarPanel(
                   
-                  numericInput("x", "X-dim:", value = 1, min = 1),
+                  selectInput("visualization", "Chosse a type of visualization:",
+                              choices = c("Codes", "Counts", "Mapping")),
                   
-                  numericInput("y", "y-dim:", value = 1, min = 1),
-                  
-                  numericInput("len", "Len:", value = 1, min = 1),
-                  
-                  numericInput("alpha", "Alpha:", value = 0.5, min = 0),
+                  actionButton("showPlot", "Plot")
                   
                 ),
                 
