@@ -21,17 +21,15 @@ shinyServer(function(input, output){
   
   output$plot <- renderPlot({
     
-    url_config <- httr::modify_url(url = "http://127.0.0.1:8888/",
+    url_config <- httr::modify_url(url = "http://127.0.0.1:8181/",
                                    path = "clustering/som/obj",
                                    query = list(xdim  = input$x,
                                                 ydim  = input$y,
-                                                rlen  = input$len,
-                                                alpha = input$alpha))
+                                                rlen  = input$len))
     
     request_som <- httr::POST(url = url_config,
                               body = input$file,
-                              encode = "json",
-                              httr::verbose())
+                              encode = "json")
     
     kohonen_obj <- unserialize(httr::content(request_som, as = "raw"))
     
