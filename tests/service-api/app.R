@@ -1,7 +1,9 @@
 library(plumber)
 
+p <- pr('kohonen_api.R')
+p$run(port = 8181)
 
-pr <- pr("kohonen_api.R")
-pr$run(port = 8181)
+
+
 
 
