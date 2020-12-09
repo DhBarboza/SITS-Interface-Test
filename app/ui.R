@@ -60,7 +60,7 @@ body <- dashboardBody(
                                  
                           column(2, radioButtons("display", "Display:",
                                                         choices = c(Head = "head", All = "all"),
-                                                        selected = "head"))
+                                                        selected = "head")),
                           ),#<- /Fluid Row
                         
                         fluidRow( tableOutput("view_file"))
